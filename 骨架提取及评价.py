@@ -12,7 +12,6 @@ from keras.preprocessing import image
 
 model = VGG16(weights='imagenet', include_top=False)
 
-
 def VThin(image, array):
     h = image.shape[0]
     w = image.shape[1]
@@ -34,7 +33,6 @@ def VThin(image, array):
                     if array[sum] == 1:
                         NEXT = 0
     return image
-
 
 def HThin(image, array):
     h = image.shape[0]
@@ -58,6 +56,7 @@ def HThin(image, array):
                         NEXT = 0
     return image
 
+print('4')
 
 def Xihua(image, array, num=20):
     h = image.shape[0]
@@ -69,7 +68,6 @@ def Xihua(image, array, num=20):
         HThin(iXihua, array)
     return iXihua
 
-
 def Two(image):
     h = image.shape[0]
     w = image.shape[1]
@@ -80,6 +78,25 @@ def Two(image):
             iTwo[i, j] = 0 if image[i, j] < 200 else 255
     return iTwo
 
+print('1')
+
+array = [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, \
+         1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, \
+         0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, \
+         1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, \
+         1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+         1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, \
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+         0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, \
+         1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, \
+         0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, \
+         1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, \
+         1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+         1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, \
+         1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, \
+         1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0]
+print('5')
 
 # 加载图片并预处理
 def load_and_process_image(img_path):
@@ -88,7 +105,6 @@ def load_and_process_image(img_path):
     img_tensor = np.expand_dims(img_array, axis=0)
     img_tensor = preprocess_input(img_tensor)
     return img_tensor
-
 
 # 提取特征
 def extract_features(model, img_path):
@@ -100,17 +116,33 @@ def extract_features(model, img_path):
 
 
 # 图片路径
-img_path1 = r'E:\\python_files\\pytorch\\myself\\test_data\\3.png'
-img_path2 = r'E:\\python_files\\pytorch\\myself\\test_data\\4.png'
-img_path3 = r'E:\\python_files\\pytorch\\myself\\test_data\\10.png'
+img_path1 = r'E:\\python_files\\pytorch\\myself\\Template_pictures\\1.png'
+img_path2 = r'E:\\python_files\\pytorch\\myself\\Handcopied_pictures\\2.png'
+img_path3 = r'E:\\python_files\\pytorch\\myself\\Handcopied_pictures\\3.png'
 
 
 # 提取特征向量
 vector1 = np.array(extract_features(model, img_path1)).reshape(1, 25088)
-vector2 = np.array(extract_features(model, img_path1)).reshape(1, 25088)
+vector2 = np.array(extract_features(model, img_path3)).reshape(1, 25088)
 # vector1 = np.array(extract_features(model, img_path1))
 # vector2 = extract_features(model, img_path3)
-
-
 normalized_distance = cosine_similarity(vector1, vector2)
 print(f"The Euclidean distance between vector1 and vector2 is: {normalized_distance}")
+
+
+image = cv.imread('E:\\python_files\\pytorch\\myself\\Template_pictures\\1.png', 0)
+iTwo = Two(image)
+iThin = Xihua(iTwo, array)
+# cv.imshow('image', image)
+# cv.imshow('iTwo', iTwo)
+cv.imshow('iThin', iThin)
+
+image1 = cv.imread('E:\\python_files\\pytorch\\myself\\Handcopied_pictures\\2.png', 0)
+iTwo1 = Two(image1)
+iThin1 = Xihua(iTwo1, array)
+cv.imshow('iThin1', iThin1)
+
+
+cv.imwrite('E:\\python_files\\pytorch\\myself\\gujiatiqu\\a.png',iThin)
+cv.imwrite('E:\\python_files\\pytorch\\myself\\gujiatiqu\\b.png',iThin1)
+cv.waitKey(0)
