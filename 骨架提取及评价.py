@@ -4,11 +4,11 @@ Created on Tue Mar 20 10:53:50 2018
 @author: Administrator
 """
 import cv2 as cv
-from keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
-from keras.utils import image_utils
+from keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions # type: ignore
+from keras.utils import image_utils# type: ignore
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-from keras.preprocessing import image
+from keras.preprocessing import image# type: ignore
 
 model = VGG16(weights='imagenet', include_top=False)
 
