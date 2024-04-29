@@ -59,8 +59,8 @@ def calculate_similar_layout(image1_path, image2_path):
     return np.mean(layout_similarities)
 
 # 图片路径
-img_path1 = r'E:\\python_files\\pytorch\\myself\\Template_pictures\\1p.png'
-img_path2 = r'E:\\python_files\\pytorch\\myself\\Handcopied_pictures\\4.png'
+img_path1 = 'data/Template_pictures/1.png'
+img_path2 = 'data/Handcopied_pictures/4.png'
 
 # 调用函数计算布局相似度
 similar_layout_score = calculate_similar_layout(img_path1, img_path2)
