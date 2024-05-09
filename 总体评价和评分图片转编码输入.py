@@ -138,7 +138,8 @@ def load_and_process_image_array(img):
 #函数对提取特征，随后进行相似度计算
 def extract_features(model, img):
     img_tensor = load_and_process_image_array(img)
-    img_tensor = img_tensor.squeeze(+1)
+    img_tensor = np.tile(img_tensor, (1, 1, 1, 3))
+    img_tensor = img_tensor[:, :, :, :3]
     features = model.predict(img_tensor)
     return features[0]
 
@@ -293,66 +294,66 @@ print("布局相似度 similar_layout_score:", similar_layout_score)
 vector1 = extract_features(model, xihuaimage1)
 vector2 = extract_features(model, xihuaimage2)
 
-print('2')
-#
-# normalized_distance = cosine_similarity(vector1.reshape(1, -1), vector2.reshape(1, -1))[0][0]
-# normalized_distance = round(normalized_distance, 2)
-# print(f"骨架相似度  normalized_distance:" , normalized_distance)
-#
-# print('4')
+print('3')
+
+normalized_distance = cosine_similarity(vector1.reshape(1, -1), vector2.reshape(1, -1))[0][0]
+normalized_distance = round(normalized_distance, 2)
+print(f"骨架相似度  normalized_distance:" , normalized_distance)
+
+print('4')
 
 
 
-# # 笔画相似度评语
-# def evaluate_stroke_similarity(score):
-#     if score < 20:
-#         return '笔画极其不相似，与模板差异极大'
-#     elif score < 40:
-#         return '笔画很不相似，需要大幅度改进'
-#     elif score < 60:
-#         return '笔画不太相似，部分偏离模板'
-#     elif score < 80:
-#         return '笔画位置基本相似，但仍有改进空间'
-#     else:
-#         return '笔画位置非常相似，与模板高度一致'
-#
-#     # 布局相似度评语
-# def evaluate_layout_similarity(score):
-#     if score < 20:
-#         return '布局极其混乱，与模板差异极大'
-#     elif score < 40:
-#         return '布局很不规整，需要大幅度调整'
-#     elif score < 60:
-#         return '布局不太规整，部分偏离模板'
-#     elif score < 80:
-#         return '布局基本规整，但仍有改进空间'
-#     else:
-#         return '布局非常规整，与模板高度一致'
-#
-#     # 骨架相似度评语
-# def evaluate_skeleton_similarity(score):
-#     if score < 20:
-#         return '骨架极其不相似，与模板差异极大'
-#     elif score < 40:
-#         return '骨架很不相似，需要大幅度调整'
-#     elif score < 60:
-#         return '骨架不太相似，部分偏离模板'
-#     elif score < 80:
-#         return '骨架位置基本相似，但仍有改进空间'
-#     else:
-#         return '骨架位置非常相似，与模板高度一致'
-#
-#
-# print('书写“王”字时，需要注意以下几个要点：')
-# print('结构:该字由三横一竖组成。最下面的横画是最长的，上面的两个横画是短横，两个短横长度差不多。长横与短横的对比要明显。上横画位于田字格上中线的中分位，中横画位于田字格的中线，第三横位于横中线下面一半的中间，而且要平直。竖画写在竖中线上')
-# print('横画等距:三横之间应保持等距且平行')
-# print('竖画的作用:竖画位于中间，起到平衡作用，使左右露出的横画长度相近。')
-# print('整体是左边低右边高，微微上扬。')
-#
-# #整体评价
-# Full_score = weighted_sum * 0.3 + similar_layout_score * 0.4 + normalized_distance  * 0.3
-# print('整体评分：', Full_score)
-#
-# print(evaluate_stroke_similarity(weighted_sum))
-# print(evaluate_layout_similarity(similar_layout_score))
-# print(evaluate_skeleton_similarity(normalized_distance))
+# 笔画相似度评语
+def evaluate_stroke_similarity(score):
+    if score < 20:
+        return '笔画极其不相似，与模板差异极大'
+    elif score < 40:
+        return '笔画很不相似，需要大幅度改进'
+    elif score < 60:
+        return '笔画不太相似，部分偏离模板'
+    elif score < 80:
+        return '笔画位置基本相似，但仍有改进空间'
+    else:
+        return '笔画位置非常相似，与模板高度一致'
+
+    # 布局相似度评语
+def evaluate_layout_similarity(score):
+    if score < 20:
+        return '布局极其混乱，与模板差异极大'
+    elif score < 40:
+        return '布局很不规整，需要大幅度调整'
+    elif score < 60:
+        return '布局不太规整，部分偏离模板'
+    elif score < 80:
+        return '布局基本规整，但仍有改进空间'
+    else:
+        return '布局非常规整，与模板高度一致'
+
+    # 骨架相似度评语
+def evaluate_skeleton_similarity(score):
+    if score < 20:
+        return '骨架极其不相似，与模板差异极大'
+    elif score < 40:
+        return '骨架很不相似，需要大幅度调整'
+    elif score < 60:
+        return '骨架不太相似，部分偏离模板'
+    elif score < 80:
+        return '骨架位置基本相似，但仍有改进空间'
+    else:
+        return '骨架位置非常相似，与模板高度一致'
+
+
+print('书写“王”字时，需要注意以下几个要点：')
+print('结构:该字由三横一竖组成。最下面的横画是最长的，上面的两个横画是短横，两个短横长度差不多。长横与短横的对比要明显。上横画位于田字格上中线的中分位，中横画位于田字格的中线，第三横位于横中线下面一半的中间，而且要平直。竖画写在竖中线上')
+print('横画等距:三横之间应保持等距且平行')
+print('竖画的作用:竖画位于中间，起到平衡作用，使左右露出的横画长度相近。')
+print('整体是左边低右边高，微微上扬。')
+
+#整体评价
+Full_score = weighted_sum * 0.3 + similar_layout_score * 0.4 + normalized_distance  * 0.3
+print('整体评分：', Full_score)
+
+print(evaluate_stroke_similarity(weighted_sum))
+print(evaluate_layout_similarity(similar_layout_score))
+print(evaluate_skeleton_similarity(normalized_distance))
